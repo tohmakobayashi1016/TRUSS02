@@ -193,7 +193,7 @@ class geometry():
         print(self.props['model']['truss']['area'])
 
     def print_mass(self):
-        print(f"the total mass of the structure is {self.mass:.3f} kg")
+        print(f"The total mass of the structure is {self.mass:.3f} kg")
 
     def print_distance(self):
         print(self.dist)
@@ -232,17 +232,19 @@ class geometry():
     def plot_structure(self):
         import matplotlib.pyplot as plt
         plt.figure(figsize=(12,4))
-
+        
         for i in range(len(self.members)):
             node1 = self.members.loc[i]["Node 1"]
             node2 = self.members.loc[i]["Node 2"]
+            cs = self.members.loc[i]["crosssection"]
+            area = self.props["model"]["truss"]["area"][cs]
 
             x1 = self.nodes.loc[node1]["x"]
             y1 = self.nodes.loc[node1]["y"]
 
             x2 = self.nodes.loc[node2]["x"]
             y2 = self.nodes.loc[node2]["y"]
-            plt.plot([x1, x2], [y1, y2], "b-")
+            plt.plot([x1, x2], [y1, y2], "c-", linewidth=area*4000)
 
         for i in range(len(self.nodes)):
             plt.plot(self.nodes.loc[i]["x"], self.nodes.loc[i]["y"], "ro")
