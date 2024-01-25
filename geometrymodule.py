@@ -85,6 +85,8 @@ class geometry():
 
         self.props['init']['mesh']['file'] = self.geomfile
         self.FrequencyRequirements = [20, 40, 60] #Hz
+        
+        self.props['model']['truss']['area'] = [0.004, 0.0003, 0.0001, 0.0001, 0.0002, 0.0001, 0.0001, 0.0002, 0.0001, 0.0001, 0.0002, 0.0001, 0.0001, 0.0002, 0.0001]
 
     def rewrite_file(self):
         with open(self.geomfile, "w") as file:
@@ -95,7 +97,6 @@ class geometry():
             file.write(self.members.to_csv(index=False, sep=' ', header=False))
 
     def update_nodes(self, new_y, returns=False):
-
         if len(new_y) != 5:
             raise Exception("Length of new y vector not equal to 5")
 
@@ -107,11 +108,12 @@ class geometry():
             geometry.display_nodes(self)
 
     def update_areas(self, new_areas, returns=False):
+        import numpy as np
 
-        if len(new_areas) != 15:
-            raise Exception("Length of new areas vector not equal to 15")
+        if len(new_areas) != 14:
+            raise Exception("Length of new areas vector not equal to 14")
 
-        self.props['model']['truss']['area'] = new_areas
+        self.props['model']['truss']['area'] = np.concatenate((0.004, new_areas), axis=None)
 
         if returns == True:
             geometry.print_areas(self)
@@ -149,7 +151,7 @@ class geometry():
         if returns == True:
             geometry.print_mass(self)
 
-    def run_FEM(self, check=False, returns=False):
+    def run_FEM(self, check=False, returns=False, prints=False):
         import os
         import numpy as np
         
@@ -163,8 +165,9 @@ class geometry():
         geometry.rewrite_file(self)
         globdat = main.jive(self.props)
         self.EigenFrequencies = globdat[gn.EIGENFREQS][0:3]/2/np.pi
-
-        geometry.print_frequencies(self)
+        
+        if prints==True:
+            geometry.print_frequencies(self)
 
         if check==True:
             geometry.check_eigenfrequencies(self)
@@ -211,23 +214,22 @@ class geometry():
         x4 = self.nodes.loc[8]["y"]
         x5 = self.nodes.loc[10]["y"]
         
-        x6 = self.props["model"]["truss"]["area"][0]
-        x7 = self.props["model"]["truss"]["area"][1]
-        x8 = self.props["model"]["truss"]["area"][2]
-        x9 = self.props["model"]["truss"]["area"][3]
-        x10 = self.props["model"]["truss"]["area"][4]
-        x11 = self.props["model"]["truss"]["area"][5]
-        x12 = self.props["model"]["truss"]["area"][6]
-        x13 = self.props["model"]["truss"]["area"][7]
-        x14 = self.props["model"]["truss"]["area"][8]
-        x15 = self.props["model"]["truss"]["area"][9]
-        x16 = self.props["model"]["truss"]["area"][10]
-        x17 = self.props["model"]["truss"]["area"][11]
-        x18 = self.props["model"]["truss"]["area"][12]
-        x19 = self.props["model"]["truss"]["area"][13]
-        x20 = self.props["model"]["truss"]["area"][14]
+        x6 = self.props["model"]["truss"]["area"][1]
+        x7 = self.props["model"]["truss"]["area"][2]
+        x8 = self.props["model"]["truss"]["area"][3]
+        x9 = self.props["model"]["truss"]["area"][4]
+        x10 = self.props["model"]["truss"]["area"][5]
+        x11 = self.props["model"]["truss"]["area"][6]
+        x12 = self.props["model"]["truss"]["area"][7]
+        x13 = self.props["model"]["truss"]["area"][8]
+        x14 = self.props["model"]["truss"]["area"][9]
+        x15 = self.props["model"]["truss"]["area"][10]
+        x16 = self.props["model"]["truss"]["area"][11]
+        x17 = self.props["model"]["truss"]["area"][12]
+        x18 = self.props["model"]["truss"]["area"][13]
+        x19 = self.props["model"]["truss"]["area"][14]
         
-        return x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19, x20
+        return x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19
     
     def plot_structure(self):
         import matplotlib.pyplot as plt
@@ -244,7 +246,7 @@ class geometry():
 
             x2 = self.nodes.loc[node2]["x"]
             y2 = self.nodes.loc[node2]["y"]
-            plt.plot([x1, x2], [y1, y2], "c-", linewidth=area*4000)
+            plt.plot([x1, x2], [y1, y2], "c-", linewidth=area*1000)
 
         for i in range(len(self.nodes)):
             plt.plot(self.nodes.loc[i]["x"], self.nodes.loc[i]["y"], "ro")
