@@ -2,7 +2,7 @@
 
 This is the github library for the Truss 2 group
 
-Replace the files in the source code with the files. 
+Replace the files in the source code with the files from the zip file. 
 The files are located in the following folder:
 
 ------------------------------------------------------------
