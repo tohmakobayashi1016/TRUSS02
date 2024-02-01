@@ -2,17 +2,21 @@
 
 This is the github library for the Truss 2 group
 
-Replace the files in the source code with the files from the zip file. 
+Notebook to execute Bayesian optimization: Bayesian_optimiser_final.ipynb
+
+Replace the files in the source code with the files from the zip file. Additionally include geometry module in the correct location.
 The files are located in the following folder:
 
 ------------------------------------------------------------
 
-main.py -> Truss_project/main.py
+geometrymodule.py -> Truss_project/pyJive/geometrymodule.py
 
-initmodule.py -> Truss_project/modules/initmodule.py
+main.py -> Truss_project/pyJive/main.py
 
-modeshapemodule.py -> Truss_project/modules/modeshapemodule.py
+initmodule.py -> Truss_project/pyJive/modules/initmodule.py
 
-paramshapes.py -> Truss_project/utils/paramshapes.py
+modeshapemodule.py -> Truss_project/pyJive/modules/modeshapemodule.py
 
-pointmassmodel.py -> Truss_project/models/pointmassmodel.py
+paramshapes.py -> Truss_project/pyJive/utils/paramshapes.py
+
+pointmassmodel.py -> Truss_project/pyJive/models/pointmassmodel.py
