@@ -1,4 +1,4 @@
-### Trust 2 
+### TRUSS 2 
 
 This is the github library for the Truss 2 group
 
